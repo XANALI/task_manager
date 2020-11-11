@@ -1,0 +1,30 @@
+﻿@model task_manager.Models.TaskBoard
+@{
+    ViewBag.Title = "Title";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div>
+            <div class="d-flex justify-content-between">
+                <h4 class="font-weight-bold">TaskBoard</h4>
+                <a href="/TaskBoard/Index" class="btn btn-success">Back</a>
+            </div>
+            <form action="/TaskBoard/PostEditTaskBoard" method="post">
+                @Html.HiddenFor(model => model.BoardId)
+                <div class="form-group">
+                    <label for="boardName">BoardName</label>
+                    @Html.EditorFor(model => model.BoardName, new { htmlAttributes = new { @id = "boardName", @class = "form-control", @required = "required" } })
+                </div>
+                <div class="form-group">
+                    <label for="boardDescription">BoardDescription</label>
+                    @Html.EditorFor(model => model.BoardDescription, new { htmlAttributes = new { @id = "boardDescription", @class = "form-control", @required = "required" } })
+                </div>
+                <div class="form-group">
+                    <label for="OwnerUserId">Owner</label>
+                    @Html.DropDownListFor(model => model.OwnerUserId, ViewBag.Users as SelectList, new { @id = "OwnerUserId", @class = "form-control", @required = "required" })
+                </div>
+                <button type="submit" class="btn btn-warning">Edit</button>
+            </form>
+        </div>
+    </div>
+</div>

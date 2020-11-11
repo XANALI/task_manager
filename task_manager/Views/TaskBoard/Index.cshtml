@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Title";
+}
+<div class="container mt-5">
+    @model IEnumerable<task_manager.Models.TaskBoard>
+    <div class="d-flex justify-content-between">
+        <h4 class="font-weight-bold">TaskBoards</h4>
+        <a href="/TaskBoard/AddTaskBoard" class="btn btn-success">Add</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">BoardName</th>
+                <th scope="col">BoardDescription</th>
+                <th scope="col">Owner Username</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <th scope="row">@t.BoardId</th>
+                    <td>@t.BoardName</td>
+                    <td>@t.BoardDescription</td>
+                    <td>@Html.DisplayFor(modelItem => t.Owner.Username)</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="actions">
+                            <a href="/TaskBoard/ShowTaskBoard/@t.BoardId" class="btn btn-info">Show</a>
+                            <a href="/TaskBoard/EditTaskBoard/@t.BoardId" class="btn btn-warning">Edit</a>
+                            <form class="d-inline-block" action="/TaskBoard/PostDeleteTaskBoard" method="post">
+                                <input type="hidden" name="id" value="@t.BoardId" />
+                                <button type="submit" class="btn btn-danger rounded-right" style="border-radius: 0;">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
