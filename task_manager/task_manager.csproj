@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -127,20 +128,25 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Auth\CustomAuthorize.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\TaskBoardController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskGroupController.cs" />
+    <Compile Include="Controllers\TaskPriorityController.cs" />
+    <Compile Include="Controllers\TaskStatusController.cs" />
+    <Compile Include="Controllers\TaskSubelementController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BoardMember.cs" />
-    <Compile Include="Models\SubelementOwner.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\TaskBoard.cs" />
     <Compile Include="Models\TaskGroup.cs" />
     <Compile Include="Models\TaskManagerContext.cs" />
-    <Compile Include="Models\TaskOwner.cs" />
     <Compile Include="Models\TaskPriority.cs" />
     <Compile Include="Models\TaskStatus.cs" />
     <Compile Include="Models\TaskSubelement.cs" />
@@ -176,6 +182,8 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -190,7 +198,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Account\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\AddUser.cshtml" />
@@ -204,10 +212,32 @@
     <Content Include="Views\TaskGroup\EditTaskGroup.cshtml" />
     <Content Include="Views\TaskGroup\Index.cshtml" />
     <Content Include="Views\TaskGroup\ShowTaskGroup.cshtml" />
+    <Content Include="Views\Task\AddTask.cshtml" />
+    <Content Include="Views\Task\EditTask.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Task\ShowTask.cshtml" />
+    <Content Include="Views\TaskSubelement\AddTaskSubelement.cshtml" />
+    <Content Include="Views\TaskSubelement\EditTaskSubelement.cshtml" />
+    <Content Include="Views\TaskSubelement\Index.cshtml" />
+    <Content Include="Views\TaskSubelement\ShowTaskSubelement.cshtml" />
+    <Content Include="Views\TaskStatus\AddTaskStatus.cshtml" />
+    <Content Include="Views\TaskStatus\EditTaskStatus.cshtml" />
+    <Content Include="Views\TaskStatus\Index.cshtml" />
+    <Content Include="Views\TaskStatus\ShowTaskStatus.cshtml" />
+    <Content Include="Views\TaskPriority\AddTaskPriority.cshtml" />
+    <Content Include="Views\TaskPriority\EditTaskPriority.cshtml" />
+    <Content Include="Views\TaskPriority\Index.cshtml" />
+    <Content Include="Views\TaskPriority\ShowTaskPriority.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\MyBoards.cshtml" />
+    <Content Include="Views\Client\MemberBoards.cshtml" />
+    <Content Include="Views\Client\Group.cshtml" />
+    <Content Include="Views\Client\AddTaskBoard.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Task\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -16,10 +16,12 @@ namespace task_manager.Models
         public int? OwnerUserId { get; set; }
         public User Owner { get; set; }
         public ICollection<TaskGroup> TaskGroups { get; set; }
+        public virtual ICollection<User> Members { get; set; }
 
         public TaskBoard()
         {
             TaskGroups = new List<TaskGroup>();
+            Members = new List<User>();
         }
     }
 }

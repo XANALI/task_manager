@@ -1,0 +1,46 @@
+﻿@model IEnumerable<task_manager.Models.TaskBoard>
+
+<div id="boardsresult">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Owner.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BoardName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BoardDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Members)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Owner.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BoardName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BoardDescription)
+                </td>
+                <td>
+                    @foreach (var user in item.Members)
+                    {
+                        <a>@user.Username</a>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("BoardTasks", "Client", new { id = item.BoardId }) |
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    @model IEnumerable<task_manager.Models.TaskPriority>
+    <div class="d-flex justify-content-between">
+        <h4 class="font-weight-bold">TaskPriorities</h4>
+        <a href="/TaskPriority/AddTaskPriority" class="btn btn-success">Add</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Priority Name</th>
+                <th scope="col">Priority Color</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <th scope="row">@t.PriorityId</th>
+                    <td>@t.PriorityName</td>
+                    <td>@t.PriorityColor</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="actions">
+                            <a href="/TaskPriority/ShowTaskPriority/@t.PriorityId" class="btn btn-info">Show</a>
+                            <a href="/TaskPriority/EditTaskPriority/@t.PriorityId" class="btn btn-warning">Edit</a>
+                            <form class="d-inline-block" action="/TaskPriority/PostDeleteTaskPriority" method="post">
+                                <input type="hidden" name="id" value="@t.PriorityId" />
+                                <button type="submit" class="btn btn-danger rounded-right" style="border-radius: 0;">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        @model task_manager.Models.TaskPriority
+        <div>
+            <div class="d-flex justify-content-between">
+                <h4 class="font-weight-bold">TaskStatus @Model.PriorityId</h4>
+                <a href="/TaskPriority/Index" class="btn btn-success">Back</a>
+            </div>
+            <div class="jumbotron">
+                <h1 class="display-4">@Model.PriorityName</h1>
+                <hr class="my-4">
+                <p>Color: @Model.PriorityColor</p>
+            </div>
+        </div>
+    </div>
+</div>

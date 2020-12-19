@@ -1,0 +1,39 @@
+﻿@model task_manager.Models.TaskSubelement
+@{
+    ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div>
+            <div class="d-flex justify-content-between">
+                <h4 class="font-weight-bold">TaskSubelement</h4>
+                <a href="/TaskSubelement/Index" class="btn btn-success">Back</a>
+            </div>
+            <form action="/TaskSubelement/PostEditTaskSubelement" method="post">
+                @Html.HiddenFor(model => model.SubelementId)
+                <div class="form-group">
+                    <label for="SubelementName">SubelementName</label>
+                    @Html.EditorFor(model => model.SubelementName, new { htmlAttributes = new { @id = "SubelementName", @class = "form-control", @required = "required" } })
+                </div>
+                <div class="form-group">
+                    <label for="SubelementDate">SubelementDate</label>
+                    <input class="form-control" type="datetime-local" name="SubelementDate" id="SubelementDate" value="@Model.SubelementDate.ToString("s")" required />
+                </div>
+                <div class="form-group">
+                    <label for="TaskTaskId">Subelement Task</label>
+                    @Html.DropDownListFor(model => model.TaskTaskId, ViewBag.Tasks as SelectList, new { @id = "TaskTaskId", @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="StatusStatusId">Task Status</label>
+                    @Html.DropDownListFor(model => model.StatusStatusId, ViewBag.TaskStatuses as SelectList, new { @id = "StatusStatusId", @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="PriorityPriorityId">Task Priorities</label>
+                    @Html.DropDownListFor(model => model.PriorityPriorityId, ViewBag.TaskPriorities as SelectList, new { @id = "PriorityPriorityId", @class = "form-control", @required = "required" })
+                </div>
+                <button type="submit" class="btn btn-warning">Edit</button>
+            </form>
+        </div>
+    </div>
+</div>

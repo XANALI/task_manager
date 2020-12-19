@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - приложение ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">TaskManager</a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/User/Index">User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/TaskBoard/Index">Task Board</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/TaskGroup/Index">Task Group</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Task/Index">Task</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/TaskSubelement/Index">Task Subelement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/TaskStatus/Index">Task Status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/TaskPriority/Index">Task Priority</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Client/Index">Client</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Account/Logoff">Logout</a>
+                    </li>
+                }
+                else if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Account/Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Account/Register">Register</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

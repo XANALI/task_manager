@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    @model IEnumerable<task_manager.Models.Task>
+    <div class="d-flex justify-content-between">
+        <h4 class="font-weight-bold">Tasks @ViewBag.AuthText</h4>
+        <a href="/Task/AddTask" class="btn btn-success">Add</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Task Name</th>
+                <th scope="col">Task Description</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">Estimated time</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <th scope="row">@t.TaskId</th>
+                    <td>@t.TaskName</td>
+                    <td>@t.TaskDescription</td>
+                    <td>@t.StartDate</td>
+                    <td>@t.EstimatedTime</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="actions">
+                            <a href="/Task/ShowTask/@t.TaskId" class="btn btn-info">Show</a>
+                            <a href="/Task/EditTask/@t.TaskId" class="btn btn-warning">Edit</a>
+                            <form class="d-inline-block" action="/Task/PostDeleteTask" method="post">
+                                <input type="hidden" name="id" value="@t.TaskId" />
+                                <button type="submit" class="btn btn-danger rounded-right" style="border-radius: 0;">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

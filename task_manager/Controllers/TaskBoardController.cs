@@ -27,7 +27,6 @@ namespace task_manager.Controllers
             {
                 return HttpNotFound();
             }
-
             TaskBoard taskBoard = db.TaskBoards.Include(t => t.Owner).FirstOrDefault(t => t.BoardId == id);
 
             return View(taskBoard);
@@ -40,12 +39,22 @@ namespace task_manager.Controllers
             SelectList users = new SelectList(db.Users, "UserId", "Username");
             ViewBag.Users = users;
 
+            ViewBag.Members = db.Users.ToList();
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult PostAddTaskBoard(TaskBoard taskBoard)
+        public ActionResult PostAddTaskBoard(TaskBoard taskBoard, int[] selectedMembers)
         {
+            if(selectedMembers != null)
+            {
+                foreach (var m in db.Users.Where(member => selectedMembers.Contains(member.UserId)))
+                {
+                    taskBoard.Members.Add(m);
+                }
+            }
+
             db.TaskBoards.Add(taskBoard);
             db.SaveChanges();
 
@@ -65,6 +74,8 @@ namespace task_manager.Controllers
                 SelectList users = new SelectList(db.Users, "UserId", "Username", taskBoard.OwnerUserId);
                 ViewBag.Users = users;
 
+                ViewBag.Members = db.Users.ToList();
+
                 return View(taskBoard);
             }
 
@@ -72,9 +83,23 @@ namespace task_manager.Controllers
         }
 
         [HttpPost]
-        public ActionResult PostEditTaskBoard(TaskBoard taskBoard)
+        public ActionResult PostEditTaskBoard(TaskBoard taskBoard, int[] selectedMembers)
         {
-            db.Entry(taskBoard).State = EntityState.Modified;
+            TaskBoard newBoard = db.TaskBoards.Find(taskBoard.BoardId);
+            newBoard.BoardName = taskBoard.BoardName;
+            newBoard.BoardDescription = taskBoard.BoardDescription;
+            newBoard.OwnerUserId = taskBoard.OwnerUserId;
+
+            newBoard.Members.Clear();
+            if (selectedMembers != null)
+            {
+                foreach (var m in db.Users.Where(member => selectedMembers.Contains(member.UserId)))
+                {
+                    newBoard.Members.Add(m);
+                }
+            }
+
+            db.Entry(newBoard).State = EntityState.Modified;
             db.SaveChanges();
 
             return Redirect("/TaskBoard/Index");

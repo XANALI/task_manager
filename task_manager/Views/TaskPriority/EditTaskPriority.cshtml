@@ -1,0 +1,27 @@
+﻿@model task_manager.Models.TaskPriority
+@{
+    ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div>
+            <div class="d-flex justify-content-between">
+                <h4 class="font-weight-bold">TaskPriority</h4>
+                <a href="/TaskPriority/Index" class="btn btn-success">Back</a>
+            </div>
+            <form action="/TaskPriority/PostEditTaskPriority" method="post">
+                @Html.HiddenFor(model => model.PriorityId)
+                <div class="form-group">
+                    <label for="PriorityName">PriorityName</label>
+                    @Html.EditorFor(model => model.PriorityName, new { htmlAttributes = new { @id = "PriorityName", @class = "form-control", @required = "required" } })
+                </div>
+                <div class="form-group">
+                    <label for="PriorityColor">PriorityColor</label>
+                    @Html.EditorFor(model => model.PriorityColor, new { htmlAttributes = new { @id = "PriorityColor", @class = "form-control", @required = "required" } })
+                </div>
+                <button type="submit" class="btn btn-warning">Edit</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,7 @@
-﻿@{
+﻿@using task_manager.Models
+@{
     ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <div class="container mt-5">
     <div class="d-flex justify-content-center">
@@ -14,6 +16,13 @@
                 <hr class="my-4">
                 <p>@Model.BoardDescription</p>
                 <p>Owner: @Model.Owner.FirstName @Model.Owner.LastName</p>
+                <ul class="list-group">
+                    <li class="list-group-item active">Members</li>
+                    @foreach (User m in @Model.Members)
+                    {
+                        <li class="list-group-item">@m.Username</li>
+                    }
+                </ul>
             </div>
         </div>
     </div>

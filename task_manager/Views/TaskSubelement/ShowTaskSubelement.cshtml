@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        @model task_manager.Models.TaskSubelement
+        <div>
+            <div class="d-flex justify-content-between">
+                <h4 class="font-weight-bold">TaskSubelement @Model.SubelementId</h4>
+                <a href="/TaskSubelement/Index" class="btn btn-success">Back</a>
+            </div>
+            <div class="jumbotron">
+                <h1 class="display-4">@Model.SubelementName</h1>
+                <hr class="my-4">
+                <p>Subelement Date: @Model.SubelementDate</p>
+                <p>Task: @Model.Task.TaskName</p>
+                <p>Status: @Model.Status.StatusName</p>
+                <p>Priority: @Model.Priority.PriorityName</p>
+            </div>
+        </div>
+    </div>
+</div>

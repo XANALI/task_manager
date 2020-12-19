@@ -1,0 +1,46 @@
+﻿@model task_manager.Models.Task
+@{
+    ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div>
+            <div class="d-flex justify-content-between">
+                <h4 class="font-weight-bold">Task</h4>
+                <a href="/Task/Index" class="btn btn-success">Back</a>
+            </div>
+            <form action="/Task/PostAddTask" method="post">
+                <div class="form-group">
+                    <label for="TaskName">TaskName</label>
+                    @Html.EditorFor(model => model.TaskName, new { htmlAttributes = new { @id = "TaskName", @class = "form-control", @required = "required" } })
+                </div>
+                <div class="form-group">
+                    <label for="TaskDescription">TaskDescription</label>
+                    @Html.EditorFor(model => model.TaskDescription, new { htmlAttributes = new { @id = "TaskDescription", @class = "form-control", @required = "required" } })
+                </div>
+                <div class="form-group">
+                    <label for="StartDate">StartDate</label>
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @id = "StartDate", @class = "form-control", @required = "required", @type = "datetime-local" } })
+                </div>
+                <div class="form-group">
+                    <label for="EstimatedTime">EstimatedTime</label>
+                    @Html.EditorFor(model => model.EstimatedTime, new { htmlAttributes = new { @id = "EstimatedTime", @class = "form-control", @required = "required", @type = "number", @step = "0.1" } })
+                </div>
+                <div class="form-group">
+                    <label for="GroupGroupId">Task Group</label>
+                    @Html.DropDownListFor(model => model.GroupGroupId, ViewBag.TaskGroups as SelectList, new { @id = "GroupGroupId", @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="StatusStatusId">Task Status</label>
+                    @Html.DropDownListFor(model => model.StatusStatusId, ViewBag.TaskStatuses as SelectList, new { @id = "StatusStatusId", @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="PriorityPriorityId">Task Priorities</label>
+                    @Html.DropDownListFor(model => model.PriorityPriorityId, ViewBag.TaskPriorities as SelectList, new { @id = "PriorityPriorityId", @class = "form-control", @required = "required" })
+                </div>
+                <button type="submit" class="btn btn-primary">ADD</button>
+            </form>
+        </div>
+    </div>
+</div>

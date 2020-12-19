@@ -12,7 +12,7 @@ namespace task_manager.Models
         public int StatusId { get; set; }
         public string StatusName { get; set; }
         public string StatusColor { get; set; }
-        public ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
 
         public TaskStatus()
         {

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<task_manager.Models.Task>
+
+@{
+    ViewBag.Title = "BoardTasks";
+}
+
+<div>
+    <h2>@ViewBag.BoardName Board Tasks:</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Group.GroupName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority.PriorityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status.StatusName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstimatedTime)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Group.GroupName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Priority.PriorityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.StatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaskName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaskDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstimatedTime)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.TaskId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.TaskId }) |
+                    @Ajax.ActionLink("Subelements", "TaskSubelements", new AjaxOptions { UpdateTargetId = "subelements", LoadingElementId = "loading", LoadingElementDuration = 1000 })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div id="loading" class="spinner-border text-secondary" style="display: none;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div id="subelements">
+    </div>
+</div>

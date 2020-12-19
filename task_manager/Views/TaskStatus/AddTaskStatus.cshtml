@@ -1,0 +1,26 @@
+﻿@model task_manager.Models.TaskStatus
+@{
+    ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div>
+            <div class="d-flex justify-content-between">
+                <h4 class="font-weight-bold">TaskStatus</h4>
+                <a href="/TaskStatus/Index" class="btn btn-success">Back</a>
+            </div>
+            <form action="/TaskStatus/PostAddTaskStatus" method="post">
+                <div class="form-group">
+                    <label for="StatusName">StatusName</label>
+                    @Html.EditorFor(model => model.StatusName, new { htmlAttributes = new { @id = "StatusName", @class = "form-control", @required = "required" } })
+                </div>
+                <div class="form-group">
+                    <label for="StatusColor">StatusColor</label>
+                    @Html.EditorFor(model => model.StatusColor, new { htmlAttributes = new { @id = "StatusColor", @class = "form-control", @required = "required" } })
+                </div>
+                <button type="submit" class="btn btn-primary">ADD</button>
+            </form>
+        </div>
+    </div>
+</div>

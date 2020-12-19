@@ -1,6 +1,8 @@
-﻿@model task_manager.Models.TaskBoard
+﻿@using task_manager.Models
+@model task_manager.Models.TaskBoard
 @{
     ViewBag.Title = "Title";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <div class="container mt-5">
     <div class="d-flex justify-content-center">
@@ -20,7 +22,16 @@
                 </div>
                 <div class="form-group">
                     <label for="boardOwner">Owner</label>
-                    @Html.DropDownListFor(model => model.OwnerUserId, ViewBag.Users as SelectList, new { @id = "boardOwner", @class = "form-control", @required = "required" } )
+                    @Html.DropDownListFor(model => model.OwnerUserId, ViewBag.Users as SelectList, new { @id = "boardOwner", @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="boardMembers">Members</label>
+                    @foreach (User m in ViewBag.Members)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" name="selectedMembers" value="@m.UserId"/>@m.Username <br />
+                        </div>
+                    }
                 </div>
                 <button type="submit" class="btn btn-primary">ADD</button>
             </form>

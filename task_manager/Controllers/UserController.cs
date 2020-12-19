@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using task_manager.Models;
+using task_manager.Auth;
 
 namespace task_manager.Controllers
 {
+    [Authorize(Users = "admin@gmail.com")]
     public class UserController : Controller
     {
         TaskManagerContext db = new TaskManagerContext();
@@ -17,7 +19,7 @@ namespace task_manager.Controllers
         {
             IEnumerable<User> users = db.Users;
             ViewBag.Users = users;
-            return View();
+            return View("Index");
         }
 
         [HttpGet]
@@ -33,32 +35,47 @@ namespace task_manager.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        public JsonResult IsAlreadySigned(string Email)
+        {
+
+            return Json(!db.Users.Any(x => x.Email == Email), JsonRequestBehavior.AllowGet);
+        }
+
+        public bool IsUserAvailable(string Email)
+        {
+            IEnumerable<User> Users = db.Users;
+            var RegEmailId = (from u in Users
+                              where u.Email.ToUpper() == Email.ToUpper()
+                              select new { Email }).FirstOrDefault();
+
+            bool status = true;
+            if (RegEmailId != null)
+            {
+                status = false;
+            }
+
+            return status;
+        }
+
         [HttpGet]
         public ActionResult AddUser()
         {
-            return View();
+            User user = new User();
+
+            return View(user);
         }
 
         [HttpPost]
-        public ActionResult PostAddUser()
+        public ActionResult AddUser(User user)
         {
-            string username = Request["username"];
-            string password = Request["password"];
-            string firstName = Request["firstName"];
-            string lastName = Request["lastName"];
-            string email = Request["email"];
-
-            User user = new User();
-            user.Username = username;
-            user.Password = password;
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.Email = email;
-
-            db.Users.Add(user);
-            db.SaveChanges();
-
-            return Redirect("/User/Index");
+            if (ModelState.IsValid)
+            {
+                db.Users.Add(user);
+                db.SaveChanges();
+                return Redirect("/User/Index");
+            }
+            return View(user);
         }
 
         [HttpGet]
@@ -78,12 +95,15 @@ namespace task_manager.Controllers
         }
 
         [HttpPost]
-        public ActionResult PostEditUser(User user)
+        public ActionResult EditUser(User user)
         {
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
-
-            return Redirect("/User/Index");
+            if (ModelState.IsValid)
+            {
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return Redirect("/User/Index");
+            }
+            return View(user);
         }
 
         [HttpPost]

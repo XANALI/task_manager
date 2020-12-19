@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+using task_manager.Models;
 
 namespace task_manager.Controllers
 {
+    [Authorize(Users = "admin@gmail.com")]
     public class TaskController : Controller
     {
         TaskManagerContext db = new TaskManagerContext();
@@ -13,79 +16,100 @@ namespace task_manager.Controllers
         // GET: User
         public ActionResult Index()
         {
-            var taskGroups = db.TaskGroups.Include(t => t.Board);
-            return View(taskGroups.ToList());
+            IEnumerable<Task> tasks = db.Tasks;
+
+            string result = "Вы не авторизованы";
+            if (User.Identity.IsAuthenticated)
+            {
+                result = "Ваш логин: " + User.Identity.Name;
+            }
+            ViewBag.AuthText = result;
+
+            return View(tasks);
         }
 
         [HttpGet]
-        public ActionResult ShowTaskGroup(int? id)
+        public ActionResult ShowTask(int? id)
         {
             if (id == null)
             {
                 return HttpNotFound();
             }
 
-            TaskGroup taskGroup = db.TaskGroups.Include(t => t.Board).FirstOrDefault(t => t.GroupId == id);
-            taskGroup.Board = db.TaskBoards.Include(t => t.Owner).FirstOrDefault(t => t.BoardId == taskGroup.Board.BoardId);
+            Task task = db.Tasks.Include(t => t.Group).FirstOrDefault(t => t.TaskId == id);
+            task.Status = db.TaskStatuses.Find(task.StatusStatusId);
+            task.Priority = db.TaskPriorities.Find(task.PriorityPriorityId);
 
-            return View(taskGroup);
+            return View(task);
         }
 
         [HttpGet]
-        public ActionResult AddTaskGroup()
+        public ActionResult AddTask()
         {
 
-            SelectList boards = new SelectList(db.TaskBoards.Include(t => t.Owner), "BoardId", "BoardName");
-            ViewBag.TaskBoards = boards;
+            SelectList groups = new SelectList(db.TaskGroups.Include(t => t.Board), "GroupId", "GroupName");
+            ViewBag.TaskGroups = groups;
+
+            SelectList statuses = new SelectList(db.TaskStatuses, "StatusId", "StatusName");
+            ViewBag.TaskStatuses = statuses;
+
+            SelectList priorities = new SelectList(db.TaskPriorities, "PriorityId", "PriorityName");
+            ViewBag.TaskPriorities = priorities;
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult PostAddTaskGroup(TaskGroup taskGroup)
+        public ActionResult PostAddTask(Task task)
         {
-            db.TaskGroups.Add(taskGroup);
+            db.Tasks.Add(task);
             db.SaveChanges();
 
-            return Redirect("/TaskGroup/Index");
+            return Redirect("/Task/Index");
         }
 
         [HttpGet]
-        public ActionResult EditTaskGroup(int? id)
+        public ActionResult EditTask(int? id)
         {
             if (id == null)
             {
                 return HttpNotFound();
             }
-            TaskGroup taskGroup = db.TaskGroups.Include(t => t.Board).FirstOrDefault(t => t.GroupId == id);
-            if (taskGroup != null)
+            Task task = db.Tasks.Include(t => t.Group).FirstOrDefault(t => t.TaskId == id);
+            if (task != null)
             {
-                SelectList boards = new SelectList(db.TaskBoards.Include(t => t.Owner), "BoardId", "BoardName", taskGroup.BoardBoardId);
-                ViewBag.TaskBoards = boards;
+                SelectList groups = new SelectList(db.TaskGroups.Include(t => t.Board), "GroupId", "GroupName", task.GroupGroupId);
+                ViewBag.TaskGroups = groups;
 
-                return View(taskGroup);
+                SelectList statuses = new SelectList(db.TaskStatuses, "StatusId", "StatusName", task.StatusStatusId);
+                ViewBag.TaskStatuses = statuses;
+
+                SelectList priorities = new SelectList(db.TaskPriorities, "PriorityId", "PriorityName", task.PriorityPriorityId);
+                ViewBag.TaskPriorities = priorities;
+
+                return View(task);
             }
 
             return HttpNotFound();
         }
 
         [HttpPost]
-        public ActionResult PostEditTaskGroup(TaskGroup taskGroup)
+        public ActionResult PostEditTask(Task task)
         {
-            db.Entry(taskGroup).State = EntityState.Modified;
+            db.Entry(task).State = EntityState.Modified;
             db.SaveChanges();
 
-            return Redirect("/TaskGroup/Index");
+            return Redirect("/Task/Index");
         }
 
         [HttpPost]
-        public ActionResult PostDeleteTaskGroup(int id)
+        public ActionResult PostDeleteTask(int id)
         {
-            TaskGroup taskGroup = new TaskGroup { GroupId = id };
-            db.Entry(taskGroup).State = EntityState.Deleted;
+            Task task = new Task { TaskId = id };
+            db.Entry(task).State = EntityState.Deleted;
             db.SaveChanges();
 
-            return Redirect("/TaskGroup/Index");
+            return Redirect("/Task/Index");
         }
     }
 }
